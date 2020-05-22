@@ -149,11 +149,13 @@
   <ItemGroup>
     <ClCompile Include="baggage.cpp" />
     <ClCompile Include="baggage_stock.cpp" />
+    <ClCompile Include="date.cpp" />
     <ClCompile Include="Lab2_n10.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="baggage.h" />
     <ClInclude Include="baggage_stock.h" />
+    <ClInclude Include="date.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

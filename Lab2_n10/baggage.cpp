@@ -65,3 +65,5 @@ baggage::baggage(size_t flight_num, std::string dep_date, std::string destinatio
 	size_t baggage_num, size_t weight) : flight_num(flight_num), dep_date(dep_date), destination(destination),
 	surname(surname), baggage_num(baggage_num), weight(weight)
 { }
+
+
