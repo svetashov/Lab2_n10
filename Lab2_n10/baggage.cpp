@@ -37,7 +37,9 @@ void read(Date& date)
 
 void write(const Date& date)
 {
-	std::cout << date.day << "." << date.month << "." << date.year;
+	std::cout << std::setfill('0') << std::setw(2) << date.day << std::setw(1) << "." <<
+		std::setw(2) << date.month << std::setw(1) << "." <<
+		std::setw(4) << date.year << std::setfill(' ');
 }
 
 bool operator==(const Baggage a, const Baggage b)
@@ -89,8 +91,8 @@ void write(const Baggage& b)
 	std::cout << std::setw(8) << b.flight_num << std::setw(1) << "|";
 	write(b.dep_date);
 	std::cout << std::setw(1) << "|";
-	std::cout << std::setw(8) << b.destination << std::setw(1) << "|" <<
-		std::setw(8) << b.surname << std::setw(1) << "|" <<
+	std::cout << std::setw(10) << b.destination << std::setw(1) << "|" <<
+		std::setw(10) << b.surname << std::setw(1) << "|" <<
 		std::setw(8) << b.flight_num << std::setw(1) << "|" <<
 		std::setw(8) << b.weight << std::endl;
 }
