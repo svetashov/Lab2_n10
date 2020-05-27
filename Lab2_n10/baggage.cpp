@@ -37,7 +37,7 @@ void read(Date& date)
 
 void write(const Date& date)
 {
-	std::cout << std::setfill('0') << std::setw(2) << date.day << std::setw(1) << "." <<
+	std::cout << " " << std::setfill('0') << std::setw(2) << date.day << std::setw(1) << "." <<
 		std::setw(2) << date.month << std::setw(1) << "." <<
 		std::setw(4) << date.year << std::setfill(' ');
 }
@@ -88,13 +88,13 @@ void read(Baggage& b)
 
 void write(const Baggage& b)
 {
-	std::cout << std::setw(8) << b.flight_num << std::setw(1) << "|";
+	std::cout << std::setw(11) << b.flight_num << std::setw(1) << "|";
 	write(b.dep_date);
 	std::cout << std::setw(1) << "|";
-	std::cout << std::setw(10) << b.destination << std::setw(1) << "|" <<
-		std::setw(10) << b.surname << std::setw(1) << "|" <<
-		std::setw(8) << b.flight_num << std::setw(1) << "|" <<
-		std::setw(8) << b.weight << std::endl;
+	std::cout << std::setw(16) << b.destination << std::setw(1) << "|" <<
+		std::setw(11) << b.surname << std::setw(1) << "|" <<
+		std::setw(6) << b.baggage_num << std::setw(1) << "|" <<
+		std::setw(5) << b.weight << "|" << std::endl;
 }
 
 Date::Date() : year(min_year), month(min_month), day(min_day)

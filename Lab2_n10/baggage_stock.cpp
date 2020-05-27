@@ -4,6 +4,7 @@
 #include <streambuf>
 #include <iterator>
 #include <numeric>
+#include <iomanip>
 
 baggage_stock::baggage_stock()
 {
@@ -41,6 +42,8 @@ bool baggage_stock::contains(const Baggage& b) const
 
 void baggage_stock::print() const
 {
+	std::cout << "Номер рейса|Дата вылета|Пункт назначения|  Фамилия  |Кол-во| Вес |" << std::endl;
+	std::cout << "-----------+-----------+----------------+-----------+------+-----+" << std::endl;
 	std::for_each(baggages_->begin(), baggages_->end(), [](const Baggage& baggage) { write(baggage); });
 }
 
