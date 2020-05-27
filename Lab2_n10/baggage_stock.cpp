@@ -27,7 +27,7 @@ void baggage_stock::change(const Baggage& b1, const Baggage& b2) const
 			return;
 		}
 	}
-	throw std::invalid_argument("Ѕагажа, который требуетс€ заменить, не существует.");
+	throw std::invalid_argument("Ѕагажа, который требуетс€ изменить, не существует.");
 }
 
 void baggage_stock::remove(const Baggage& b)

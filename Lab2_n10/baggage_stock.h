@@ -2,11 +2,10 @@
 #include <list>
 #include "Baggage.h"
 #include <iostream>
+#include <functional>
 
 class baggage_stock
 {
-
-typedef bool (*predicate)(Baggage b);
 	
 public:
 	baggage_stock();
@@ -32,8 +31,9 @@ public:
 	// Подсчет общего веса всех багажей
 	size_t weight() const;
 
-	// Поиск багажей по предикату
-	baggage_stock& find(predicate pred) const;
+	template <typename T>
+	baggage_stock binary_search(const T& target, bool less(const Baggage& baggage, const T& elem), bool less_binary(const Baggage& baggage1, const Baggage& baggage2)) const;
+	baggage_stock linear_search(std::function<bool(const Baggage&)> predicate) const;
 
 	friend std::istream& operator>> (std::istream& in, baggage_stock& stock);
 
