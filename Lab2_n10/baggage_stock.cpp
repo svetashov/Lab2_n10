@@ -69,9 +69,9 @@ std::istream& operator>>(std::istream& in, baggage_stock& stock)
 
 std::ostream& operator<<(std::ostream& out, const baggage_stock& stock)
 {
-	std::ostream_iterator<Baggage> out_iter(out);
-	//std::for_each(stock.baggages_->begin(), stock.baggages_->end(), [&out_iter](const baggage& b) { *out_iter++ = b; });
-	std::copy(stock.baggages_->cbegin(), stock.baggages_->cend(), out_iter);
+	std::ostream_iterator<Baggage> iter(out);
+	//std::for_each(stock.baggages_->begin(), stock.baggages_->end(), [&iter](const baggage& b) { *iter++ = b; });
+	std::copy(stock.baggages_->cbegin(), stock.baggages_->cend(), iter);
 	return out;
 }
 
