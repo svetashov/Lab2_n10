@@ -3,6 +3,7 @@
 #include "Baggage.h"
 #include <iostream>
 #include <functional>
+#include <vector>
 
 class baggage_stock
 {
@@ -11,10 +12,10 @@ public:
 	baggage_stock();
 
 	// Добавление нового багажа
-	void add(const Baggage& b) const;
+	void add(const Baggage& b);
 	
 	// Изменение багажа b1 на b2
-	void change(const Baggage& b1, const Baggage& b2) const;
+	void change(const Baggage& b1, const Baggage& b2);
 
 	// Удаление багажа
 	void remove(const Baggage& b);
@@ -40,6 +41,6 @@ public:
 	friend std::ostream& operator<< (std::ostream& out, const baggage_stock& stock);
 	
 private:
-	std::list<Baggage> * baggages_;
+	std::vector<Baggage> baggages_;
 };
 
