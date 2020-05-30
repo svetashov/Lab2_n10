@@ -19,7 +19,7 @@ public:
 	friend std::istream& operator>> (std::istream& in, Date& date);
 	friend void read(Date& date);
 	friend void write(const Date& date);
-
+	
 private:
 	static bool is_leap(int year);
 	static int get_days_in_month(int month, int year);
@@ -36,7 +36,8 @@ struct Baggage
 	friend std::istream& operator>> (std::istream& in, Baggage& b);
 	friend void read(Baggage& b);
 	friend void write(const Baggage& b);
-
+	
+	
 	size_t flight_num;
 	Date dep_date;
 	std::string destination;
@@ -44,3 +45,7 @@ struct Baggage
 	size_t baggage_num;
 	size_t weight;
 };
+
+int compare(const Date& d1, const Date& d2);
+int compare(const int x, const int y);
+int compare(const std::string& x, const std::string& y);

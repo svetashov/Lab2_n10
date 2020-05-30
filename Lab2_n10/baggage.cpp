@@ -1,4 +1,4 @@
-#include "Baggage.h"
+#include "baggage.h"
 #include <stdexcept>
 #include <iomanip>
 #include <iostream>
@@ -40,6 +40,37 @@ void write(const Date& date)
 	std::cout << " " << std::setfill('0') << std::setw(2) << date.day << std::setw(1) << "." <<
 		std::setw(2) << date.month << std::setw(1) << "." <<
 		std::setw(4) << date.year << std::setfill(' ');
+}
+
+int compare(const Date& d1, const Date& d2)
+{
+	if (d1.year > d2.year)
+		return 1;
+	if (d1.year < d2.year)
+		return -1;
+	if (d1.month > d2.month)
+		return 1;
+	if (d1.month < d2.month)
+		return -1;
+	if (d1.day > d2.day)
+		return 1;
+	if (d1.day < d2.day)
+		return -1;
+	return 0;
+}
+
+int compare(const int x, const int y)
+{
+	if (x > y)
+		return 1;
+	if (x < y)
+		return -1;
+	return 0;
+}
+
+int compare(const std::string& x, const std::string& y)
+{
+	return x.compare(y);
 }
 
 bool operator==(const Baggage a, const Baggage b)
@@ -117,7 +148,7 @@ Date::Date(const int year, const int month, const int day)
 
 bool Date::operator==(const Date& rvalue) const
 {
-	return year == rvalue.year && day == rvalue.day && month == rvalue.month;
+	return compare(*this, rvalue) == 0;
 }
 
 bool Date::is_leap(const int year)

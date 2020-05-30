@@ -5,7 +5,6 @@
 #include <iterator>
 #include <numeric>
 #include <iomanip>
-#include <utility>
 #include <vector>
 
 baggage_stock::baggage_stock()
@@ -43,9 +42,15 @@ bool baggage_stock::contains(const Baggage& b) const
 
 void baggage_stock::print() const
 {
-	std::cout << "Номер рейса|Дата вылета|Пункт назначения|  Фамилия  |Кол-во| Вес |" << std::endl;
-	std::cout << "-----------+-----------+----------------+-----------+------+-----+" << std::endl;
-	std::for_each(baggages_.begin(), baggages_.end(), [](const Baggage& baggage) { write(baggage); });
+	if (is_empty())
+		std::cout << "Контейнер багажей пуст." << std::endl << std::endl;
+	else 
+	{
+		std::cout << "Номер рейса|Дата вылета|Пункт назначения|  Фамилия  |Кол-во| Вес |" << std::endl;
+		std::cout << "-----------+-----------+----------------+-----------+------+-----+" << std::endl;
+		std::for_each(baggages_.begin(), baggages_.end(), [](const Baggage& baggage) { write(baggage); });
+		std::cout << std::endl;
+	}
 }
 
 
@@ -73,25 +78,6 @@ baggage_stock baggage_stock::linear_search(std::function<bool(const Baggage&)> p
 	return result_stock;
 }
 
-template <typename T>
-baggage_stock baggage_stock::binary_search(const T& target, bool less(const Baggage& baggage, const T& elem),
-	bool less_binary(const Baggage& baggage1, const Baggage& baggage2)) const
-{
-	baggage_stock result;
-	std::partial_sort_copy(baggages_.begin(), baggages_.end(), result.baggages_.begin(), result.baggages_.end(), less_binary);
-	auto low = lower_bound(result.baggages_.begin(), result.baggages_.end(), target, less);
-	auto up = upper_bound(result.baggages_.begin(), result.baggages_.end(), target, [less](const T& elem, const Baggage& baggage)
-		{
-			return !less(baggage, elem);
-		});
-
-	auto begin = result.baggages_.begin();
-	std::copy(low, up, begin);
-
-	return result;
-}
-
-
 std::istream& operator>>(std::istream& in, baggage_stock& stock)
 {
 	std::istream_iterator<Baggage> in_iter(in);
@@ -104,7 +90,6 @@ std::istream& operator>>(std::istream& in, baggage_stock& stock)
 std::ostream& operator<<(std::ostream& out, const baggage_stock& stock)
 {
 	std::ostream_iterator<Baggage> iter(out);
-	//std::for_each(stock.baggages_->begin(), stock.baggages_->end(), [&iter](const baggage& b) { *iter++ = b; });
 	std::copy(stock.baggages_.cbegin(), stock.baggages_.cend(), iter);
 	return out;
 }
