@@ -50,7 +50,7 @@ int menu_select_algorithm()
 
 baggage_stock search_surname(const baggage_stock& stock, bool use_binary_search = false)
 {
-	const std::string surname = get_string(1, "¬ведите фамилию владельца багажа");
+	const std::string surname = get_string(1, "¬ведите фамилию владельца багажа: ");
 	if (use_binary_search)
 		return stock.binary_search<std::string>(surname, [](const Baggage& b) { return b.surname; });
 	
@@ -70,11 +70,20 @@ baggage_stock search_date(const baggage_stock& stock, bool use_binary_search = f
 
 baggage_stock search_destination(const baggage_stock& stock, bool use_binary_search = false)
 {
-	const std::string dest = get_string(1, "¬ведите пункт назначени€");
+	const std::string dest = get_string(1, "¬ведите пункт назначени€: ");
 	if (use_binary_search)
 		return stock.binary_search<std::string>(dest, [](const Baggage& b) { return b.destination; });
 
 	return stock.linear_search([&dest](const Baggage& baggage) { return baggage.destination == dest; });
+}
+
+baggage_stock search_weight(const baggage_stock& stock, bool use_binary_search = false)
+{
+	const int w = get_number(0, SIZE_MAX, "¬ведите вес багажа: ");
+	if (use_binary_search)
+		return stock.binary_search<int>(w, [](const Baggage& b) { return b.weight; });
+
+	return stock.linear_search([&w](const Baggage& baggage) { return baggage.weight == w; });
 }
 
 
