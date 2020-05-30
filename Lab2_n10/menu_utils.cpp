@@ -68,4 +68,13 @@ baggage_stock search_date(const baggage_stock& stock, bool use_binary_search = f
 	return stock.linear_search([&date](const Baggage& baggage) { return baggage.dep_date == date; });
 }
 
+baggage_stock search_destination(const baggage_stock& stock, bool use_binary_search = false)
+{
+	const std::string dest = get_string(1, "Введите пункт назначения");
+	if (use_binary_search)
+		return stock.binary_search<std::string>(dest, [](const Baggage& b) { return b.destination; });
+
+	return stock.linear_search([&dest](const Baggage& baggage) { return baggage.destination == dest; });
+}
+
 
