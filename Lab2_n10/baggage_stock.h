@@ -37,7 +37,7 @@ public:
 	baggage_stock binary_search_ver1(const T& target, 
 		std::function<bool(const Baggage&, const Baggage&)> less, 
 		std::function<bool(const Baggage&, const T&)> less_bounds, 
-		std::function<bool(const Baggage&, const T&)> more_bounds)
+		std::function<bool(const Baggage&, const T&)> more_bounds) const
 	{
 		baggage_stock result = baggage_stock();
 		baggage_stock tmp = baggage_stock();
@@ -57,7 +57,7 @@ public:
 
 	// Бинарный поиск в контейнере с использованием предикатов
 	template <typename T>
-	baggage_stock binary_search(const T& target, std::function<T(const Baggage&)> value)
+	baggage_stock binary_search(const T& target, std::function<T(const Baggage&)> value) const
 	{
 		baggage_stock result = baggage_stock();
 		baggage_stock tmp = baggage_stock();
