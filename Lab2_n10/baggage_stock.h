@@ -32,6 +32,9 @@ public:
 	// ѕодсчет общего веса всех багажей
 	size_t weight() const;
 
+	//  оличество багажей в контейнере
+	size_t size() const;
+
 	// Ѕинарный поиск в контейнере с использованием предикатов
 	template <typename T>
 	baggage_stock binary_search_ver1(const T& target, 

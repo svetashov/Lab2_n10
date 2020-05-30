@@ -86,4 +86,36 @@ baggage_stock search_weight(const baggage_stock& stock, bool use_binary_search =
 	return stock.linear_search([&w](const Baggage& baggage) { return baggage.weight == w; });
 }
 
+void menu_search(const baggage_stock& stock)
+{
+	auto search_function = search_surname;
+	int choice = -1;
+	
+	choice = menu_search_show();
+	switch (choice)
+	{
+	case 1: search_function = search_surname;
+		break;
+	case 2: search_function = search_date;
+		break;
+	case 3: search_function = search_destination;
+		break;
+	case 4: search_function = search_weight;
+		break;
+	default: break;
+	}
 
+	const bool use_binary_search = menu_select_algorithm() == 1;
+	baggage_stock result = search_function(stock, use_binary_search);
+
+	if (result.size() > 0)
+	{
+		std::cout << "ѕо данному запросу найдено " << result.size() << " багажей: " << std::endl;
+		result.print();
+	}
+	else
+		std::cout << "ѕо данному запросу багажей не найдено." << std::endl;
+
+	// TODO realize continue with this container.
+	
+}

@@ -66,6 +66,11 @@ size_t baggage_stock::weight() const
 	return w;
 }
 
+size_t baggage_stock::size() const
+{
+	return baggages_.size();
+}
+
 baggage_stock baggage_stock::linear_search(std::function<bool(const Baggage&)> predicate) const
 {
 	baggage_stock result_stock;
