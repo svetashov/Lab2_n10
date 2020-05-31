@@ -22,3 +22,5 @@ void menu_clear(baggage_stock& stock);
 void menu_add_from_file(baggage_stock& stock);
 
 void menu_save_to_file(baggage_stock& stock);
+
+void menu_weight(baggage_stock& stock);

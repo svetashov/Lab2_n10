@@ -3,37 +3,53 @@
 
 int menu_show()
 {
-	const int menu_size = 9;
+	try
+	{
+		const int menu_size = 9;
 
-	std::cout << std::endl;
-	std::cout << "1: Посмотреть данные о багажах." << std::endl;
-	std::cout << "2: Добавить багаж." << std::endl;
-	std::cout << "3: Изменить багаж." << std::endl;
-	std::cout << "4: Удалить багаж." << std::endl;
-	std::cout << "5: Найти багажи." << std::endl;
-	std::cout << "6: Очистить контейнер." << std::endl;
-	std::cout << "7: Добавить данные из файла." << std::endl;
-	std::cout << "8: Сохранить данные в файл." << std::endl;
-	std::cout << "9: Найти общий вес багажей." << std::endl;
-	std::cout << "0: Exit" << std::endl;
-	const int choice = get_number(0, menu_size, "");
-	std::cout << std::endl;
-	return choice;
+		std::cout << std::endl;
+		std::cout << "1: Посмотреть данные о багажах." << std::endl;
+		std::cout << "2: Добавить багаж." << std::endl;
+		std::cout << "3: Изменить багаж." << std::endl;
+		std::cout << "4: Удалить багаж." << std::endl;
+		std::cout << "5: Найти багажи." << std::endl;
+		std::cout << "6: Очистить контейнер." << std::endl;
+		std::cout << "7: Добавить данные из файла." << std::endl;
+		std::cout << "8: Сохранить данные в файл." << std::endl;
+		std::cout << "9: Найти общий вес багажей." << std::endl;
+		std::cout << "0: Exit" << std::endl;
+		const int choice = get_number(0, menu_size, "");
+		std::cout << std::endl;
+		return choice;
+	}
+	catch (std::exception& e)
+	{
+		std::cout << e.what();
+		return 0;
+	}
 }
 
 int menu_search_show()
 {
-	const int menu_size = 4;
+	try
+	{
+		const int menu_size = 4;
 
-	std::cout << std::endl;
-	std::cout << "1: Найти по номеру рейса." << std::endl;
-	std::cout << "2: Найти по дате вылета." << std::endl;
-	std::cout << "3: Найти по пункту назначения." << std::endl;
-	std::cout << "4: Найти по весу багажа." << std::endl;
-	std::cout << "0: Exit" << std::endl;
-	const int choice = get_number(0, menu_size, "");
-	std::cout << std::endl;
-	return choice;
+		std::cout << std::endl;
+		std::cout << "1: Найти по номеру рейса." << std::endl;
+		std::cout << "2: Найти по дате вылета." << std::endl;
+		std::cout << "3: Найти по пункту назначения." << std::endl;
+		std::cout << "4: Найти по весу багажа." << std::endl;
+		std::cout << "0: Exit" << std::endl;
+		const int choice = get_number(0, menu_size, "");
+		std::cout << std::endl;
+		return choice;
+	}
+	catch (std::exception& e)
+	{
+		std::cout << e.what();
+		return 0;
+	}
 }
 
 void menu()
@@ -61,6 +77,8 @@ void menu()
 			break;
 		case 8: menu_save_to_file(baggage);
 			break;
+		case 9: menu_weight(baggage);
+			break;
 		default: break;
 		}
 	}
@@ -68,14 +86,22 @@ void menu()
 
 int menu_select_algorithm()
 {
-	const int menu_size = 2;
+	try
+	{
+		const int menu_size = 2;
 
-	std::cout << std::endl;
-	std::cout << "1: Бинарный поиск." << std::endl;
-	std::cout << "2: Линейный поиск." << std::endl;
-	const int choice = get_number(1, menu_size, "");
-	std::cout << std::endl;
-	return choice;
+		std::cout << std::endl;
+		std::cout << "1: Бинарный поиск." << std::endl;
+		std::cout << "2: Линейный поиск." << std::endl;
+		const int choice = get_number(1, menu_size, "");
+		std::cout << std::endl;
+		return choice;
+	}
+	catch (std::exception& e)
+	{
+		std::cout << e.what();
+		return 0;
+	}
 }
 
 baggage_stock search_surname(const baggage_stock& stock, bool use_binary_search = false)
@@ -118,41 +144,56 @@ baggage_stock search_weight(const baggage_stock& stock, bool use_binary_search =
 
 void menu_search(const baggage_stock& stock)
 {
-	auto search_function = search_surname;
-	int choice = -1;
+	try
+	{
+		auto search_function = search_surname;
+		int choice = -1;
 	
-	choice = menu_search_show();
-	switch (choice)
-	{
-	case 1: search_function = search_surname;
-		break;
-	case 2: search_function = search_date;
-		break;
-	case 3: search_function = search_destination;
-		break;
-	case 4: search_function = search_weight;
-		break;
-	default: break;
+		choice = menu_search_show();
+		switch (choice)
+		{
+		case 1: search_function = search_surname;
+			break;
+		case 2: search_function = search_date;
+			break;
+		case 3: search_function = search_destination;
+			break;
+		case 4: search_function = search_weight;
+			break;
+		default: break;
+		}
+
+		const bool use_binary_search = menu_select_algorithm() == 1;
+		baggage_stock result = search_function(stock, use_binary_search);
+
+		if (result.size() > 0)
+		{
+			std::cout << "По данному запросу найдено " << result.size() << " багажей: " << std::endl;
+			result.print();
+		}
+		else
+			std::cout << "По данному запросу багажей не найдено." << std::endl;
+
+		// TODO realize continue with this container.
 	}
-
-	const bool use_binary_search = menu_select_algorithm() == 1;
-	baggage_stock result = search_function(stock, use_binary_search);
-
-	if (result.size() > 0)
+	catch (std::exception& e)
 	{
-		std::cout << "По данному запросу найдено " << result.size() << " багажей: " << std::endl;
-		result.print();
+		std::cout << e.what();
 	}
-	else
-		std::cout << "По данному запросу багажей не найдено." << std::endl;
-
-	// TODO realize continue with this container.
 	
 }
 
 void menu_print(const baggage_stock& stock)
 {
-	stock.print();
+	try
+	{
+		stock.print();
+	}
+	catch (std::exception& e)
+	{
+		std::cout << e.what();
+	}
+	
 }
 
 void menu_add(baggage_stock& stock)
@@ -163,7 +204,7 @@ void menu_add(baggage_stock& stock)
 		read(b);
 		stock.add(b);
 	}
-	catch (std::invalid_argument& e)
+	catch (std::exception& e)
 	{
 		std::cout << e.what();
 	}
@@ -189,7 +230,7 @@ void menu_update(baggage_stock& stock)
 			stock.update(b);
 		}
 	}
-	catch (std::invalid_argument& e)
+	catch (std::exception& e)
 	{
 		std::cout << e.what();
 	}
@@ -205,7 +246,7 @@ void menu_remove(baggage_stock& stock)
 		else
 			std::cout << "Багаж не найден в базе" << std::endl;
 	}
-	catch (std::invalid_argument& e)
+	catch (std::exception& e)
 	{
 		std::cout << e.what();
 	}
@@ -218,7 +259,7 @@ void menu_clear(baggage_stock& stock)
 		stock.clear();
 		std::cout << "База очищена." << std::endl;
 	}
-	catch (std::invalid_argument& e)
+	catch (std::exception& e)
 	{
 		std::cout << e.what();
 	}
@@ -231,50 +272,80 @@ std::string get_open_filepath(const std::string& filename)
 
 void menu_add_from_file(baggage_stock& stock)
 {
-	const std::string filename = get_open_filepath(get_filename("Введите имя файла"));
-	std::ifstream in(filename);
-	if (!in.is_open())
-		std::cout << "Ошибка при открытии файла." << std::endl;
-	else
+	try
 	{
-		const int size = stock.size();
-		try
+		const std::string filename = get_open_filepath(get_filename("Введите имя файла"));
+		std::ifstream in(filename, std::ios::app);
+		if (!in.is_open())
+			std::cout << "Ошибка при открытии файла." << std::endl;
+		else
 		{
-			in >> stock;
-			std::cout << "Добавлено новых записей: " << stock.size() - size << " ." << std::endl;
+			const int size = stock.size();
+			try
+			{
+				in >> stock;
+				std::cout << "Добавлено " << stock.size() - size << " новых багажа." << std::endl;
+			}
+			catch (std::exception& e)
+			{
+				stock.shrink(size);
+				std::cout << e.what() << std::endl;
+				std::cout << "Записи не были добалены." << std::endl;
+			}
+			in.close();
 		}
-		catch (std::exception&)
-		{
-			stock.shrink(size);
-			std::cout << "Ошибка при чтении информации из файла." << std::endl;
-		}
-		in.close();
 	}
+	catch (std::exception& e)
+	{
+		std::cout << e.what() << std::endl;
+	}
+	
 }
 
 void menu_save_to_file(baggage_stock& stock)
 {
-	if (stock.is_empty())
-		std::cout << "База пуста." << std::endl;
-	else
+	try
 	{
-		const std::string filename = get_open_filepath(get_filename("Введите имя файла"));
-		std::ofstream out(filename);
-		if (!out.is_open())
-			std::cout << "Ошибка при открытии файла." << std::endl;
+		if (stock.is_empty())
+			std::cout << "База пуста." << std::endl;
 		else
 		{
-			try
+			const std::string filename = get_open_filepath(get_filename("Введите имя файла"));
+			std::ofstream out(filename, std::ios::app);
+			if (!out.is_open())
+				std::cout << "Ошибка при открытии файла." << std::endl;
+			else
 			{
-				out << stock;
-				std::cout << "Данные успешно сохранены." << std::endl;
+				try
+				{
+					out << stock;
+					std::cout << "Данные успешно сохранены." << std::endl;
+				}
+				catch (std::exception& e)
+				{
+					std::cout << "Ошибка при записи информации в файл." << std::endl;
+					std::cout << e.what() << std::endl;
+				}
+				out.close();
 			}
-			catch (std::exception& e)
-			{
-				std::cout << "Ошибка при записи информации в файл." << std::endl;
-			}
-			out.close();
 		}
+	}
+	catch (std::exception& e)
+	{
+		std::cout << e.what() << std::endl;
+	}
+	
+}
+
+void menu_weight(baggage_stock& stock)
+{
+	try
+	{
+		std::cout << "Общий вес багажа: " <<stock.weight() << std::endl;
+	}
+	catch (std::exception& e)
+	{
+		std::cout << e.what() << std::endl;
 	}
 }
 

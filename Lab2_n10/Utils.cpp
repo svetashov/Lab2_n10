@@ -5,6 +5,23 @@
 const std::string FILE_DIRECTORY = "..\\Files\\";
 const std::string FILE_EXTENSION = ".txt";
 
+std::string& rtrim(std::string& s, const char* symbols = " :")
+{
+	s.erase(s.find_last_not_of(symbols) + 1);
+	return s;
+}
+
+std::string& ltrim(std::string& s, const char* symbols = " :")
+{
+	s.erase(0, s.find_first_not_of(symbols));
+	return s;
+}
+
+std::string& trim(std::string& s, const char* symbols = " :")
+{
+	return ltrim(rtrim(s, symbols), symbols);
+}
+
 int32_t get_number(int32_t min, int32_t max, const std::string& message)
 {
 	int rv = 0;
@@ -79,4 +96,15 @@ std::string get_filename(const std::string& message)
 std::string get_filepath(const std::string& filename)
 {
 	return (FILE_DIRECTORY + filename + FILE_EXTENSION);
+}
+
+
+std::string get_value(std::string& source, const std::string& separator)
+{
+	unsigned int pos = source.find(separator);
+	if (pos == std::string::npos)
+		pos = source.length();
+	std::string result = source.substr(0, pos);
+	source.erase(0, pos + separator.length());
+	return trim(result);
 }

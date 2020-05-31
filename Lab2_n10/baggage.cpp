@@ -19,11 +19,19 @@ std::ostream& operator<<(std::ostream& out, const Date& date)
 
 std::istream& operator>>(std::istream& in, Date& date)
 {
-	size_t tmp_day, tmp_month, tmp_year;
-	in >> tmp_day;
-	in >> tmp_month;
-	in >> tmp_year;
-	date = Date(tmp_day, tmp_month, tmp_year);
+	if (!in.eof())
+	{
+		std::string tmp;
+		in >> tmp;
+		const std::string separator = ".";
+		const int day = std::stoi(get_value(tmp, separator));
+		const int month = std::stoi(get_value(tmp, separator));
+		const int year = std::stoi(get_value(tmp, separator));
+		
+		date = { year, month, day };
+	}
+	
+
 	return in;
 }
 
@@ -85,12 +93,12 @@ bool operator==(const Baggage a, const Baggage b)
 
 std::ostream& operator<<(std::ostream& out, const Baggage& b)
 {
-	return out << b.flight_num << 
-		b.dep_date << 
-		b.destination <<
-		b.surname << 
-		b.baggage_num <<
-		b.weight << std::endl << std::endl;
+	return out << b.flight_num << std::endl <<
+		b.dep_date << std::endl <<
+		b.destination << std::endl <<
+		b.surname << std::endl <<
+		b.baggage_num << std::endl <<
+		b.weight << std::endl;
 }
 
 std::istream& operator>>(std::istream& in, Baggage& b)
@@ -101,9 +109,7 @@ std::istream& operator>>(std::istream& in, Baggage& b)
 	in >> b.surname;
 	in >> b.baggage_num;
 	in >> b.weight;
-	std::string tmp;
-	std::getline(in, tmp);
-	std::getline(in, tmp);
+	
 	return in;
 }
 

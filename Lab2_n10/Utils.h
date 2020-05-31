@@ -15,3 +15,4 @@ std::string get_filename(const std::string& message);
 
 std::string get_filepath(const std::string& filename);
 
+std::string get_value(std::string& source, const std::string& separator);

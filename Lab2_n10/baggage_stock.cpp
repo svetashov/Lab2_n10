@@ -100,10 +100,24 @@ baggage_stock baggage_stock::linear_search(std::function<bool(const Baggage&)> p
 
 std::istream& operator>>(std::istream& in, baggage_stock& stock)
 {
+	/*std::string tmp;
+	getline(in, tmp);
+	if (!in.eof())
+	{
+		std::istream_iterator<Baggage> in_iter(in);
+		const std::istream_iterator<Baggage> eof_iter;
+		stock.add(*in_iter);
+		while (in_iter != eof_iter) {
+			std::cout << "a";
+			stock.add(*++in_iter);
+		}
+	}*/
+
 	std::istream_iterator<Baggage> in_iter(in);
 	std::istream_iterator<Baggage> eof_iter;
 	std::string tmp;
-	std::for_each(in_iter, eof_iter, [&](const Baggage& b) { stock.add(b);  getline(in, tmp); });
+	std::for_each(in_iter, eof_iter, [&](const Baggage& b) { stock.add(b); getline(in, tmp); });
+	
 	return in;
 }
 

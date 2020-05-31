@@ -5,10 +5,12 @@
 #include "baggage.h"
 #include "baggage_stock.h"
 #include "menu_utils.h"
-
+#include <windows.h>
 
 int main()
 {
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
 	setlocale(LC_ALL, "Russian");
     /*std::cout << "Hello world!\n";
 	baggage_stock st = baggage_stock();
