@@ -15,13 +15,13 @@ public:
 	void add(const Baggage& b);
 	
 	// Изменение багажа b1 на b2
-	void change(const Baggage& b1, const Baggage& b2);
+	void update(const Baggage& b);
 
 	// Удаление багажа
-	void remove(const Baggage& b);
+	bool remove(size_t flight_num);
 
 	// Проверка контейнера на содержание багажа
-	bool contains(const Baggage& b) const;
+	bool contains(const size_t bag_num) const;
 
 	// Вывод всех багажей в консоль
 	void print() const;
@@ -34,6 +34,10 @@ public:
 
 	// Количество багажей в контейнере
 	size_t size() const;
+
+	void clear();
+
+	void shrink(size_t size);
 
 	// Бинарный поиск в контейнере с использованием предикатов
 	template <typename T>

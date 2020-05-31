@@ -36,6 +36,36 @@ int menu_search_show()
 	return choice;
 }
 
+void menu()
+{
+	baggage_stock baggage;
+	int choice = -1;
+	while (choice != 0)
+	{
+		choice = menu_show();
+		switch (choice)
+		{
+		case 1: menu_print(baggage);
+			break;
+		case 2: menu_add(baggage);
+			break;
+		case 3: menu_update(baggage);
+			break;
+		case 4: menu_remove(baggage);
+			break;
+		case 5: menu_search(baggage);
+			break;
+		case 6: menu_clear(baggage);
+			break;
+		case 7: menu_add_from_file(baggage);
+			break;
+		case 8: menu_save_to_file(baggage);
+			break;
+		default: break;
+		}
+	}
+}
+
 int menu_select_algorithm()
 {
 	const int menu_size = 2;
@@ -119,3 +149,137 @@ void menu_search(const baggage_stock& stock)
 	// TODO realize continue with this container.
 	
 }
+
+void menu_print(const baggage_stock& stock)
+{
+	stock.print();
+}
+
+void menu_add(baggage_stock& stock)
+{
+	try
+	{
+		Baggage b = Baggage();
+		read(b);
+		stock.add(b);
+	}
+	catch (std::invalid_argument& e)
+	{
+		std::cout << e.what();
+	}
+}
+
+void menu_update(baggage_stock& stock)
+{
+	try
+	{
+		const int flight_num = get_number(0, INT32_MAX, "Введите номер рейса: ");
+		if (!stock.contains(flight_num))
+			std::cout << "Багаж не найден в базе." << std::endl;
+		else
+		{
+			std::cout << "Введите новые данные о багаже: " << std::endl;
+			Baggage b = Baggage();
+			b.flight_num = flight_num;
+			read(b.dep_date);
+			b.destination = get_string(1, "Введите пункт назначения");
+			b.surname = get_string(1, "Введите фамилию");
+			b.baggage_num = get_number(1, INT32_MAX, "Введите количество багажа");
+			b.weight = get_number(1, INT32_MAX, "Введите вес багажа");
+			stock.update(b);
+		}
+	}
+	catch (std::invalid_argument& e)
+	{
+		std::cout << e.what();
+	}
+}
+
+void menu_remove(baggage_stock& stock)
+{
+	try
+	{
+		const int fl = get_number(1, SIZE_MAX, "Введите номер полета");
+		if (stock.remove(fl))
+			std::cout << "Багаж с номером полета " << fl << " успешно удалён." << std::endl;
+		else
+			std::cout << "Багаж не найден в базе" << std::endl;
+	}
+	catch (std::invalid_argument& e)
+	{
+		std::cout << e.what();
+	}
+}
+
+void menu_clear(baggage_stock& stock)
+{
+	try
+	{
+		stock.clear();
+		std::cout << "База очищена." << std::endl;
+	}
+	catch (std::invalid_argument& e)
+	{
+		std::cout << e.what();
+	}
+}
+
+std::string get_open_filepath(const std::string& filename)
+{
+	return ("..\\Results\\" + filename + ".txt");
+}
+
+void menu_add_from_file(baggage_stock& stock)
+{
+	const std::string filename = get_open_filepath(get_filename("Введите имя файла"));
+	std::ifstream in(filename);
+	if (!in.is_open())
+		std::cout << "Ошибка при открытии файла." << std::endl;
+	else
+	{
+		const int size = stock.size();
+		try
+		{
+			in >> stock;
+			std::cout << "Добавлено новых записей: " << stock.size() - size << " ." << std::endl;
+		}
+		catch (std::exception&)
+		{
+			stock.shrink(size);
+			std::cout << "Ошибка при чтении информации из файла." << std::endl;
+		}
+		in.close();
+	}
+}
+
+void menu_save_to_file(baggage_stock& stock)
+{
+	if (stock.is_empty())
+		std::cout << "База пуста." << std::endl;
+	else
+	{
+		const std::string filename = get_open_filepath(get_filename("Введите имя файла"));
+		std::ofstream out(filename);
+		if (!out.is_open())
+			std::cout << "Ошибка при открытии файла." << std::endl;
+		else
+		{
+			try
+			{
+				out << stock;
+				std::cout << "Данные успешно сохранены." << std::endl;
+			}
+			catch (std::exception& e)
+			{
+				std::cout << "Ошибка при записи информации в файл." << std::endl;
+			}
+			out.close();
+		}
+	}
+}
+
+
+
+
+
+

@@ -14,30 +14,35 @@ baggage_stock::baggage_stock()
 
 void baggage_stock::add(const Baggage& b)
 {
-	if (contains(b))
+	if (contains(b.flight_num))
 		throw new std::invalid_argument("Данный багаж уже добавлен.");
 	baggages_.push_back(b);
 }
 
-void baggage_stock::change(const Baggage& b1, const Baggage& b2)
-{	
-	for (auto it = baggages_.begin(); it != baggages_.end(); ++it) {
-		if (*it == b1) {
-			*it = b2;
-			return;
-		}
-	}
-	throw std::invalid_argument("Багажа, который требуется изменить, не существует.");
+void baggage_stock::update(const Baggage& b)
+{
+	const auto it = std::find_if(baggages_.begin(), baggages_.end(), [&b](const Baggage& other)
+		{
+			return other.flight_num == b.flight_num;
+		});
+	if (it == baggages_.end())
+		throw std::invalid_argument("Багаж не найден в базе.");
+	*it = b;
 }
 
-void baggage_stock::remove(const Baggage& b)
+bool baggage_stock::remove(size_t flight_num)
 {
-	baggages_.erase(std::remove(baggages_.begin(), baggages_.end(), b), baggages_.end());
+	const auto it = std::remove_if(baggages_.begin(), baggages_.end(),
+		[&flight_num](Baggage& other) { return flight_num == other.flight_num; });
+	const bool result = it != baggages_.end();
+	if (result)
+		baggages_.erase(it, baggages_.end());
+	return result;
 }
 
-bool baggage_stock::contains(const Baggage& b) const
+bool baggage_stock::contains(const size_t bag_num) const
 {
-	return std::any_of(baggages_.begin(), baggages_.end(), [&b](const Baggage& in_b) { return (b == in_b); });
+	return std::any_of(baggages_.begin(), baggages_.end(), [&bag_num](const Baggage& in_b) { return (bag_num == in_b.flight_num); });
 }
 
 void baggage_stock::print() const
@@ -71,6 +76,16 @@ size_t baggage_stock::size() const
 	return baggages_.size();
 }
 
+void baggage_stock::clear()
+{
+	baggages_.clear();
+}
+
+void baggage_stock::shrink(size_t size)
+{
+	baggages_.resize(size);
+}
+
 baggage_stock baggage_stock::linear_search(std::function<bool(const Baggage&)> predicate) const
 {
 	baggage_stock result_stock;
@@ -87,7 +102,8 @@ std::istream& operator>>(std::istream& in, baggage_stock& stock)
 {
 	std::istream_iterator<Baggage> in_iter(in);
 	std::istream_iterator<Baggage> eof_iter;
-	std::for_each(in_iter, eof_iter, [&stock](const Baggage& b) { stock.add(b); });
+	std::string tmp;
+	std::for_each(in_iter, eof_iter, [&](const Baggage& b) { stock.add(b);  getline(in, tmp); });
 	return in;
 }
 
@@ -95,7 +111,8 @@ std::istream& operator>>(std::istream& in, baggage_stock& stock)
 std::ostream& operator<<(std::ostream& out, const baggage_stock& stock)
 {
 	std::ostream_iterator<Baggage> iter(out);
-	std::copy(stock.baggages_.cbegin(), stock.baggages_.cend(), iter);
+	std::for_each(stock.baggages_.begin(), stock.baggages_.end(),
+		[&](const Baggage& b) { *iter++ = b; out << std::endl; });
 	return out;
 }
 

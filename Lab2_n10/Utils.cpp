@@ -7,22 +7,26 @@ const std::string FILE_EXTENSION = ".txt";
 
 int32_t get_number(int32_t min, int32_t max, const std::string& message)
 {
-	int32_t result;
+	int rv = 0;
 	std::string tmp;
-	bool check;
+	bool correct;
+	std::cout << message << " --> ";
 	do
 	{
-		std::cout << message << " [" << min << ", " << max << "]: ";
-		std::cin >> result;
-		if (std::cin.fail())
-			std::cin.clear();
-		getline(std::cin, tmp);
-		check = (result >= min) && (result <= max);
-		if (!check)
-			std::cout << "Число выходит за границы диапазона! Повторите ввод." << std::endl;
-	}
-	while (!check);
-	return result;
+		correct = true;
+		std::cin >> tmp;
+		try
+		{
+			rv = std::stoi(tmp);
+		}
+		catch (std::exception&)
+		{
+			correct = false;
+		}
+		if (!correct || rv < min || rv > max)
+			std::cout << "Ошибка, введите снова --> ";
+	} while (!correct || rv < min || rv > max);
+	return rv;
 }
 
 bool get_answer(const std::string& message)

@@ -109,12 +109,12 @@ std::istream& operator>>(std::istream& in, Baggage& b)
 
 void read(Baggage& b)
 {
-	b.flight_num = get_number(0, SIZE_MAX, "¬ведите номер рейса");
+	b.flight_num = get_number(0, INT32_MAX, "¬ведите номер рейса");
 	read(b.dep_date);
 	b.destination = get_string(1, "¬ведите пункт назначени€");
 	b.surname = get_string(1, "¬ведите фамилию");
-	b.flight_num = get_number(1, SIZE_MAX, "¬ведите количество багажа");
-	b.weight = get_number(1, SIZE_MAX, "¬ведите вес багажа");
+	b.baggage_num = get_number(1, INT32_MAX, "¬ведите количество багажа");
+	b.weight = get_number(1, INT32_MAX, "¬ведите вес багажа");
 }
 
 void write(const Baggage& b)

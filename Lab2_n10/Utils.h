@@ -14,3 +14,4 @@ std::string get_string(int32_t min_length, const std::string& message);
 std::string get_filename(const std::string& message);
 
 std::string get_filepath(const std::string& filename);
+

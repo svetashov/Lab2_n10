@@ -4,12 +4,13 @@
 #include <iostream>
 #include "baggage.h"
 #include "baggage_stock.h"
+#include "menu_utils.h"
 
 
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-    std::cout << "Hello world!\n";
+    /*std::cout << "Hello world!\n";
 	baggage_stock st = baggage_stock();
 
 	st.add(Baggage(1242, Date(2000, 8, 15), "Москва", "Светашов", 34, 3));
@@ -27,10 +28,10 @@ int main()
 	/*st3 = st.binary_search<int>(1, 
 		[](const Baggage& b1, const Baggage& b2) { return b1.weight < b2.weight; }, 
 		[](const Baggage& b, const int str) { return b.weight < str; },
-		[](const Baggage& b, const int str) { return b.weight > str; });*/
+		[](const Baggage& b, const int str) { return b.weight > str; });#1#
 	st3 = st.binary_search<std::string>(s, [&](const Baggage& b) {return b.surname; });
 	st2.print();
-	st3.print();
-
+	st3.print();*/
+	menu();
 }
 
