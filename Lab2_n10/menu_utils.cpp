@@ -275,7 +275,7 @@ void menu_add_from_file(baggage_stock& stock)
 	try
 	{
 		const std::string filename = get_open_filepath(get_filename("Введите имя файла"));
-		std::ifstream in(filename, std::ios::app);
+		std::ifstream in(filename);
 		if (!in.is_open())
 			std::cout << "Ошибка при открытии файла." << std::endl;
 		else
@@ -311,7 +311,7 @@ void menu_save_to_file(baggage_stock& stock)
 		else
 		{
 			const std::string filename = get_open_filepath(get_filename("Введите имя файла"));
-			std::ofstream out(filename, std::ios::app);
+			std::ofstream out(filename);
 			if (!out.is_open())
 				std::cout << "Ошибка при открытии файла." << std::endl;
 			else
