@@ -142,6 +142,11 @@ BaggageStock search_weight(const BaggageStock& stock, bool use_binary_search = f
 	return stock.linear_search([&w](const Baggage& baggage) { return baggage.weight == w; });
 }
 
+std::string get_open_filepath(const std::string& filename)
+{
+	return ("files\\" + filename);
+}
+
 void Menu::menu_search()
 {
 	try
@@ -174,7 +179,36 @@ void Menu::menu_search()
 		else
 			std::cout << "По данному запросу багажей не найдено." << std::endl;
 
-		// TODO realize continue with this container.
+		if (get_answer("Хотите сохранить результат поиска?"))
+		{
+			try
+			{
+				std::string filename = get_open_filepath(get_filename("Введите имя файла"));
+				std::ofstream out(filename);
+				if (!out.is_open())
+					std::cout << "Ошибка при открытии файла." << std::endl;
+				else
+				{
+					try
+					{
+						out << result;
+						std::cout << "Данные успешно сохранены." << std::endl;
+					}
+					catch (std::exception& e)
+					{
+						std::cout << "Ошибка при записи информации в файл." << std::endl;
+						std::cout << e.what() << std::endl;
+					}
+					out.close();
+	
+				}
+			}
+			catch (std::exception& e)
+			{
+				std::cout << e.what() << std::endl;
+			}
+		
+		}
 	}
 	catch (std::exception& e)
 	{
@@ -265,10 +299,7 @@ void Menu::menu_clear()
 	}
 }
 
-std::string get_open_filepath(const std::string& filename)
-{
-	return ("files\\" + filename);
-}
+
 
 bool Menu::try_load_from_file(std::string& file_path)
 {
