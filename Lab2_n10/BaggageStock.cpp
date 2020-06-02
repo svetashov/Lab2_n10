@@ -15,7 +15,7 @@ BaggageStock::BaggageStock()
 void BaggageStock::add(const Baggage& b)
 {
 	if (contains(b.flight_num))
-		throw new std::invalid_argument("Данный багаж уже добавлен.");
+		throw std::invalid_argument("Данный багаж уже добавлен.");
 	baggages_.push_back(b);
 }
 
@@ -100,24 +100,10 @@ BaggageStock BaggageStock::linear_search(std::function<bool(const Baggage&)> pre
 
 std::istream& operator>>(std::istream& in, BaggageStock& stock)
 {
-	/*std::string tmp;
-	getline(in, tmp);
-	if (!in.eof())
-	{
-		std::istream_iterator<Baggage> in_iter(in);
-		const std::istream_iterator<Baggage> eof_iter;
-		stock.add(*in_iter);
-		while (in_iter != eof_iter) {
-			std::cout << "a";
-			stock.add(*++in_iter);
-		}
-	}*/
-
 	std::istream_iterator<Baggage> in_iter(in);
 	std::istream_iterator<Baggage> eof_iter;
 	std::string tmp;
 	std::for_each(in_iter, eof_iter, [&](const Baggage& b) { stock.add(b); getline(in, tmp); });
-	
 	return in;
 }
 
