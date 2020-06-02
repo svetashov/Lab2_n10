@@ -6,6 +6,8 @@
 #include "baggage_stock.h"
 #include "menu_utils.h"
 #include <windows.h>
+#include "Utils.h"
+#include "config.h"
 
 int main()
 {
@@ -13,6 +15,7 @@ int main()
 	SetConsoleOutputCP(1251);
 	setlocale(LC_ALL, "Russian");
 
+	config cfg = config();
 	menu();
 }
 

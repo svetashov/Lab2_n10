@@ -101,10 +101,27 @@ std::string get_filepath(const std::string& filename)
 
 std::string get_value(std::string& source, const std::string& separator)
 {
-	unsigned int pos = source.find(separator);
+	int pos = source.find(separator);
 	if (pos == std::string::npos)
 		pos = source.length();
 	std::string result = source.substr(0, pos);
 	source.erase(0, pos + separator.length());
 	return trim(result);
+}
+
+bool get_prop(const std::string& source, std::string& prop_name, std::string& prop_value)
+{
+	const int pos_eq = source.find('=');
+	if (pos_eq == std::string::npos || pos_eq == -1)
+		return false;
+	std::string tmp = source.substr(0, pos_eq);
+	prop_name = trim(tmp);
+	const int pos_quot = source.find('\"');
+	const int pos_quot_2 = source.find('\"', pos_quot + 1);
+	if (pos_quot == std::string::npos || pos_quot == -1)
+		return false;
+	tmp = source.substr(pos_quot+1, pos_quot_2-pos_quot-1);
+	prop_value = trim(tmp);
+	return true;
+	
 }

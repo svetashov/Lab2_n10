@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="baggage.cpp" />
     <ClCompile Include="baggage_stock.cpp" />
+    <ClCompile Include="config.cpp" />
     <ClCompile Include="Lab2_n10.cpp" />
     <ClCompile Include="menu_utils.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -156,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="baggage.h" />
     <ClInclude Include="baggage_stock.h" />
+    <ClInclude Include="config.h" />
     <ClInclude Include="menu_utils.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>

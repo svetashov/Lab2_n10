@@ -350,7 +350,8 @@ void menu_weight(baggage_stock& stock)
 }
 
 
-
-
-
-
+menu::menu(config& cfg)
+{
+	stock = baggage_stock();
+	conf = cfg;
+}
