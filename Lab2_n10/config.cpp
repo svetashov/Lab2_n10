@@ -3,7 +3,7 @@
 #include <iostream>
 #include "Utils.h"
 
-bool config::try_load_config()
+bool Config::try_load_config()
 {
 	try
 	{
@@ -33,7 +33,7 @@ bool config::try_load_config()
 	
 }
 
-config::config()
+Config::Config()
 {
 	if (!try_load_config())
 	{
@@ -49,7 +49,7 @@ config::config()
 	}
 }
 
-std::string config::get_default_path() const
+std::string Config::get_default_path() const
 {
 	return default_path;
 }

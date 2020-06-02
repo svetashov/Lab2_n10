@@ -1,7 +1,7 @@
-#include "menu_utils.h"
+#include "Menu.h"
 #include "Utils.h"
 
-int menu_show()
+int Menu::menu_show()
 {
 	try
 	{
@@ -29,7 +29,7 @@ int menu_show()
 	}
 }
 
-int menu_search_show()
+int Menu::menu_search_show()
 {
 	try
 	{
@@ -52,32 +52,31 @@ int menu_search_show()
 	}
 }
 
-void menu()
+void Menu::run()
 {
-	baggage_stock baggage;
 	int choice = -1;
 	while (choice != 0)
 	{
 		choice = menu_show();
 		switch (choice)
 		{
-		case 1: menu_print(baggage);
+		case 1: menu_print();
 			break;
-		case 2: menu_add(baggage);
+		case 2: menu_add();
 			break;
-		case 3: menu_update(baggage);
+		case 3: menu_update();
 			break;
-		case 4: menu_remove(baggage);
+		case 4: menu_remove();
 			break;
-		case 5: menu_search(baggage);
+		case 5: menu_search();
 			break;
-		case 6: menu_clear(baggage);
+		case 6: menu_clear();
 			break;
-		case 7: menu_add_from_file(baggage);
+		case 7: menu_add_from_file();
 			break;
-		case 8: menu_save_to_file(baggage);
+		case 8: menu_save_to_file();
 			break;
-		case 9: menu_weight(baggage);
+		case 9: menu_weight();
 			break;
 		default: break;
 		}
@@ -104,7 +103,7 @@ int menu_select_algorithm()
 	}
 }
 
-baggage_stock search_surname(const baggage_stock& stock, bool use_binary_search = false)
+BaggageStock search_surname(const BaggageStock& stock, bool use_binary_search = false)
 {
 	const std::string surname = get_string(1, "¬ведите фамилию владельца багажа: ");
 	if (use_binary_search)
@@ -113,7 +112,7 @@ baggage_stock search_surname(const baggage_stock& stock, bool use_binary_search 
 	return stock.linear_search([&surname](const Baggage& baggage) { return baggage.surname == surname; });
 }
 
-baggage_stock search_date(const baggage_stock& stock, bool use_binary_search = false)
+BaggageStock search_date(const BaggageStock& stock, bool use_binary_search = false)
 {
 	Date date = Date();
 	std::cout << "¬ведите дату: " << std::endl;
@@ -124,7 +123,7 @@ baggage_stock search_date(const baggage_stock& stock, bool use_binary_search = f
 	return stock.linear_search([&date](const Baggage& baggage) { return baggage.dep_date == date; });
 }
 
-baggage_stock search_destination(const baggage_stock& stock, bool use_binary_search = false)
+BaggageStock search_destination(const BaggageStock& stock, bool use_binary_search = false)
 {
 	const std::string dest = get_string(1, "¬ведите пункт назначени€: ");
 	if (use_binary_search)
@@ -133,7 +132,7 @@ baggage_stock search_destination(const baggage_stock& stock, bool use_binary_sea
 	return stock.linear_search([&dest](const Baggage& baggage) { return baggage.destination == dest; });
 }
 
-baggage_stock search_weight(const baggage_stock& stock, bool use_binary_search = false)
+BaggageStock search_weight(const BaggageStock& stock, bool use_binary_search = false)
 {
 	const int w = get_number(0, SIZE_MAX, "¬ведите вес багажа: ");
 	if (use_binary_search)
@@ -142,7 +141,7 @@ baggage_stock search_weight(const baggage_stock& stock, bool use_binary_search =
 	return stock.linear_search([&w](const Baggage& baggage) { return baggage.weight == w; });
 }
 
-void menu_search(const baggage_stock& stock)
+void Menu::menu_search()
 {
 	try
 	{
@@ -164,7 +163,7 @@ void menu_search(const baggage_stock& stock)
 		}
 
 		const bool use_binary_search = menu_select_algorithm() == 1;
-		baggage_stock result = search_function(stock, use_binary_search);
+		BaggageStock result = search_function(stock, use_binary_search);
 
 		if (result.size() > 0)
 		{
@@ -183,7 +182,7 @@ void menu_search(const baggage_stock& stock)
 	
 }
 
-void menu_print(const baggage_stock& stock)
+void Menu::menu_print()
 {
 	try
 	{
@@ -196,7 +195,7 @@ void menu_print(const baggage_stock& stock)
 	
 }
 
-void menu_add(baggage_stock& stock)
+void Menu::menu_add()
 {
 	try
 	{
@@ -210,7 +209,7 @@ void menu_add(baggage_stock& stock)
 	}
 }
 
-void menu_update(baggage_stock& stock)
+void Menu::menu_update()
 {
 	try
 	{
@@ -236,7 +235,7 @@ void menu_update(baggage_stock& stock)
 	}
 }
 
-void menu_remove(baggage_stock& stock)
+void Menu::menu_remove()
 {
 	try
 	{
@@ -252,7 +251,7 @@ void menu_remove(baggage_stock& stock)
 	}
 }
 
-void menu_clear(baggage_stock& stock)
+void Menu::menu_clear()
 {
 	try
 	{
@@ -270,7 +269,7 @@ std::string get_open_filepath(const std::string& filename)
 	return ("..\\Results\\" + filename + ".txt");
 }
 
-void menu_add_from_file(baggage_stock& stock)
+void Menu::menu_add_from_file()
 {
 	try
 	{
@@ -302,7 +301,7 @@ void menu_add_from_file(baggage_stock& stock)
 	
 }
 
-void menu_save_to_file(baggage_stock& stock)
+void Menu::menu_save_to_file() const
 {
 	try
 	{
@@ -337,7 +336,7 @@ void menu_save_to_file(baggage_stock& stock)
 	
 }
 
-void menu_weight(baggage_stock& stock)
+void Menu::menu_weight() const
 {
 	try
 	{
@@ -350,8 +349,7 @@ void menu_weight(baggage_stock& stock)
 }
 
 
-menu::menu(config& cfg)
+Menu::Menu(Config& cfg) : conf(cfg)
 {
-	stock = baggage_stock();
-	conf = cfg;
+	stock = BaggageStock();
 }

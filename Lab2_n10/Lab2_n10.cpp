@@ -2,9 +2,8 @@
 //
 
 #include <iostream>
-#include "baggage.h"
-#include "baggage_stock.h"
-#include "menu_utils.h"
+#include "BaggageStock.h"
+#include "Menu.h"
 #include <windows.h>
 #include "Utils.h"
 #include "config.h"
@@ -15,7 +14,8 @@ int main()
 	SetConsoleOutputCP(1251);
 	setlocale(LC_ALL, "Russian");
 
-	config cfg = config();
-	menu();
+	Config config = Config();
+	Menu menu = Menu(config);
+	menu.run();
 }
 

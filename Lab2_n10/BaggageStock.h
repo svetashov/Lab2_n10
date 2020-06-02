@@ -1,15 +1,15 @@
 #pragma once
-#include "baggage.h"
+#include "Baggage.h"
 #include <iostream>
 #include <functional>
 #include <vector>
 #include <algorithm>
 
-class baggage_stock
+class BaggageStock
 {
 	
 public:
-	baggage_stock();
+	BaggageStock();
 
 	// ƒобавление нового багажа
 	void add(const Baggage& b);
@@ -41,13 +41,13 @@ public:
 
 	// Ѕинарный поиск в контейнере с использованием предикатов
 	template <typename T>
-	baggage_stock binary_search_ver1(const T& target, 
+	BaggageStock binary_search_ver1(const T& target, 
 		std::function<bool(const Baggage&, const Baggage&)> less, 
 		std::function<bool(const Baggage&, const T&)> less_bounds, 
 		std::function<bool(const Baggage&, const T&)> more_bounds) const
 	{
-		baggage_stock result = baggage_stock();
-		baggage_stock tmp = baggage_stock();
+		BaggageStock result = BaggageStock();
+		BaggageStock tmp = BaggageStock();
 		std::copy(baggages_.begin(), baggages_.end(), std::back_inserter(tmp.baggages_));
 		std::sort(tmp.baggages_.begin(), tmp.baggages_.end(), less);
 
@@ -64,10 +64,10 @@ public:
 
 	// Ѕинарный поиск в контейнере с использованием предикатов
 	template <typename T>
-	baggage_stock binary_search(const T& target, std::function<T(const Baggage&)> value) const
+	BaggageStock binary_search(const T& target, std::function<T(const Baggage&)> value) const
 	{
-		baggage_stock result = baggage_stock();
-		baggage_stock tmp = baggage_stock();
+		BaggageStock result = BaggageStock();
+		BaggageStock tmp = BaggageStock();
 		std::copy(baggages_.begin(), baggages_.end(), std::back_inserter(tmp.baggages_));
 		std::sort(tmp.baggages_.begin(), tmp.baggages_.end(), [&value](const Baggage& b1, const Baggage& b2)
 			{ return compare(value(b1), value(b2)) < 0; });
@@ -84,11 +84,11 @@ public:
 	}
 
 	
-	baggage_stock linear_search(std::function<bool(const Baggage&)> predicate) const;
+	BaggageStock linear_search(std::function<bool(const Baggage&)> predicate) const;
 
-	friend std::istream& operator>> (std::istream& in, baggage_stock& stock);
+	friend std::istream& operator>> (std::istream& in, BaggageStock& stock);
 
-	friend std::ostream& operator<< (std::ostream& out, const baggage_stock& stock);
+	friend std::ostream& operator<< (std::ostream& out, const BaggageStock& stock);
 	
 private:
 	std::vector<Baggage> baggages_;

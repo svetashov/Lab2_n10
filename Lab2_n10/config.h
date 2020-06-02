@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-class config
+class Config
 {
 	const std::string CONFIG_PATH = "config.cfg";
 	const std::string DEFAULT_PATH = "/files/baggages.txt";
@@ -11,7 +11,7 @@ class config
 	bool try_load_config();
 
 public:
-	config();
+	Config();
 	std::string get_default_path() const;
 };
 
