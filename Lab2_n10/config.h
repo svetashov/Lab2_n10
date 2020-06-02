@@ -4,7 +4,7 @@
 class Config
 {
 	const std::string CONFIG_PATH = "config.cfg";
-	const std::string DEFAULT_PATH = "/files/baggages.txt";
+	const std::string DEFAULT_PATH = "files/baggages.txt";
 	
 	std::string default_path;
 

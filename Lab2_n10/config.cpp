@@ -12,9 +12,9 @@ bool Config::try_load_config()
 		ok = in.is_open();
 		if (ok)
 		{
-			std::string tmp;
+			std::string tmp, name, value;
 			std::getline(in, tmp);
-			std::string name, value;
+			
 			ok = get_prop(tmp, name, value) && name == "default_file";
 			if (ok)
 			{

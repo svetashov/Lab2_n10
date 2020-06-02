@@ -78,6 +78,7 @@ void Menu::run()
 			break;
 		case 9: menu_weight();
 			break;
+		case 0: menu_exit();
 		default: break;
 		}
 	}
@@ -266,17 +267,16 @@ void Menu::menu_clear()
 
 std::string get_open_filepath(const std::string& filename)
 {
-	return ("..\\Results\\" + filename + ".txt");
+	return ("files\\" + filename);
 }
 
-void Menu::menu_add_from_file()
+bool Menu::try_load_from_file(std::string& file_path)
 {
 	try
 	{
-		const std::string filename = get_open_filepath(get_filename("Введите имя файла"));
-		std::ifstream in(filename);
+		std::ifstream in(file_path);
 		if (!in.is_open())
-			std::cout << "Ошибка при открытии файла." << std::endl;
+			std::cout << "Ошибка при открытии файла \"" << file_path << "\"." << std::endl;
 		else
 		{
 			const int size = stock.size();
@@ -292,47 +292,58 @@ void Menu::menu_add_from_file()
 				std::cout << "Записи не были добалены." << std::endl;
 			}
 			in.close();
+			return true;
 		}
 	}
 	catch (std::exception& e)
 	{
 		std::cout << e.what() << std::endl;
 	}
-	
+	return false;
 }
 
-void Menu::menu_save_to_file() const
+bool Menu::try_save_to_file(std::string& file_path) const
 {
 	try
 	{
-		if (stock.is_empty())
-			std::cout << "База пуста." << std::endl;
+		std::ofstream out(file_path);
+		if (!out.is_open())
+			std::cout << "Ошибка при открытии файла." << std::endl;
 		else
 		{
-			const std::string filename = get_open_filepath(get_filename("Введите имя файла"));
-			std::ofstream out(filename);
-			if (!out.is_open())
-				std::cout << "Ошибка при открытии файла." << std::endl;
-			else
+			try
 			{
-				try
-				{
-					out << stock;
-					std::cout << "Данные успешно сохранены." << std::endl;
-				}
-				catch (std::exception& e)
-				{
-					std::cout << "Ошибка при записи информации в файл." << std::endl;
-					std::cout << e.what() << std::endl;
-				}
-				out.close();
+				out << stock;
+				std::cout << "Данные успешно сохранены." << std::endl;
 			}
+			catch (std::exception& e)
+			{
+				std::cout << "Ошибка при записи информации в файл." << std::endl;
+				std::cout << e.what() << std::endl;
+			}
+			out.close();
+			return true;
 		}
 	}
 	catch (std::exception& e)
 	{
 		std::cout << e.what() << std::endl;
 	}
+	return false;
+}
+
+void Menu::menu_add_from_file()
+{
+	std::string filename = get_open_filepath(get_filename("Введите имя файла"));
+	try_load_from_file(filename);
+}
+
+
+
+void Menu::menu_save_to_file() const
+{
+	std::string filename = get_open_filepath(get_filename("Введите имя файла"));
+	try_save_to_file(filename);
 	
 }
 
@@ -348,8 +359,26 @@ void Menu::menu_weight() const
 	}
 }
 
+void Menu::menu_exit() const
+{
+	std::string path = conf.get_default_path();
+	try_save_to_file(path);
+}
+
 
 Menu::Menu(Config& cfg) : conf(cfg)
 {
 	stock = BaggageStock();
+	std::string path = cfg.get_default_path();
+	std::cout << "Попытка загрузить данные из стандартного файла..." << std::endl;
+	if (try_load_from_file(path))
+		std::cout << "Данные успешно загружены." << std::endl;
+	else
+	{
+		std::cout << "Данные не были загружены." << std::endl;
+		if (try_save_to_file(path))
+			std::cout << "Стандартный файл был создан." << std::endl;
+	}
+		
+	
 }

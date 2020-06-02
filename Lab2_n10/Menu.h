@@ -35,6 +35,12 @@ private:
 	void menu_save_to_file() const;
 
 	void menu_weight() const;
+
+	void menu_exit() const;
+
+	bool try_load_from_file(std::string& file_path);
+	
+	bool try_save_to_file(std::string& file_path) const;
 };
 
 
